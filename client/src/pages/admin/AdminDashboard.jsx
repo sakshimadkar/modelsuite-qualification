@@ -66,7 +66,8 @@ const AdminDashboard = () => {
     <div className="flex min-h-screen" style={{ background: '#050505' }}>
       <Sidebar />
 
-      <main className="ml-[240px] flex-1 px-8 py-8" style={{ maxWidth: 'calc(100vw - 240px)' }}>
+      <main className="ml-[240px] flex-1 px-8 py-8" style={{ maxWidth: "calc(100vw - 240px)" }}>
+ 
 
         {/* Page header */}
         <div className="flex items-center justify-between mb-7 page-section">
@@ -136,7 +137,7 @@ const AdminDashboard = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="search-input-glass"
-                  style={{ minWidth: '180px' }}
+                  style={{ minWidth: "180px" }}
                 />
               </div>
 
