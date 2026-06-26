@@ -66,7 +66,7 @@ const TasksTable = ({ tasks, onEdit, onRefresh }) => {
   }
 
   return (
-   <div className="w-full max-w-full overflow-x-auto">
+   <div className="w-full max-w-full overflow-x-auto min-w-0">
       <table className="min-w-[900px] w-full border-collapse" style={{ fontSize: '13.5px' }}>
         <thead>
           <tr>

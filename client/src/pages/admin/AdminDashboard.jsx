@@ -66,11 +66,11 @@ const AdminDashboard = () => {
     <div className="flex min-h-screen" style={{ background: '#050505' }}>
       <Sidebar />
 
-      <main className="ml-[240px] flex-1 px-8 py-8" style={{ maxWidth: "calc(100vw - 240px)" }}>
+      <main className="ml-[240px] flex-1 px-4 md:px-8 py-8 min-w-0">
  
 
         {/* Page header */}
-        <div className="flex items-center justify-between mb-7 page-section">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-7 page-section">
           <div>
             <h1 className="font-display text-[22px] font-semibold tracking-tight"
               style={{ color: '#F0F0F0', fontFamily: 'Poppins, sans-serif' }}>
@@ -90,7 +90,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Stats grid */}
-        <div className="grid grid-cols-4 gap-4 mb-6 page-section">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 page-section">
           {statCards.map(({ label, value, colorClass, valueColor }) => (
             <div key={label} className={`stat-card ${colorClass}`}>
               <span className="block text-[10.5px] font-semibold uppercase tracking-[0.08em] mb-3"
