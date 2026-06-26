@@ -39,39 +39,48 @@ const getTaskById = async (req, res) => {
 // @access Admin
 const createTask = async (req, res) => {
   const { title, description, status, assignedTo, dueDate } = req.body;
+
   if (!title?.trim() || !description?.trim()) {
-  return res.status(400).json({
-    message: "Title and description are required."
-  });
-}
-
-// Validate due date
-if (dueDate) {
-  const selectedDate = new Date(dueDate);
-  const today = new Date();
-
-  // Ignore time and compare only dates
-  today.setHours(0, 0, 0, 0);
-  selectedDate.setHours(0, 0, 0, 0);
-
-  if (selectedDate < today) {
     return res.status(400).json({
-      message: "Due date cannot be in the past."
+      message: "Title and description are required."
     });
   }
-}
+
+  // Validate due date
+  if (dueDate) {
+    const selectedDate = new Date(dueDate);
+    const today = new Date();
+
+    // Ignore time and compare only dates
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      return res.status(400).json({
+        message: "Due date cannot be in the past."
+      });
+    }
+  }
 
   try {
     const task = await Task.create({
-      title : title.trim(),
-      description : description.trim(),
+      title: title.trim(),
+      description: description.trim(),
       status,
       assignedTo: assignedTo || null,
       dueDate,
       createdBy: req.user._id,
     });
 
-    res.status(201).json(task);
+    const populatedTask = await task.populate('assignedTo', 'name email');
+
+    if (populatedTask.assignedTo) {
+      console.log(
+        `[Notification] Task "${populatedTask.title}" assigned to ${populatedTask.assignedTo.name} (${populatedTask.assignedTo.email})`
+      );
+    }
+
+    res.status(201).json(populatedTask);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -90,7 +99,12 @@ const updateTask = async (req, res) => {
       { ...req.body },
       { new: true }
     ).populate('assignedTo', 'name email');
-
+    
+    if (updated.assignedTo) {
+  console.log(
+    `[Notification] Task "${updated.title}" assigned to ${updated.assignedTo.name} (${updated.assignedTo.email})`
+  );
+}
     res.json(updated);
   } catch (error) {
     res.status(500).json({ message: error.message });
