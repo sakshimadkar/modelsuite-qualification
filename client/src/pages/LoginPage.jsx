@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
+import { Eye, EyeOff } from "lucide-react";
 
 const Logo = () => (
   <img src="/modelsuite-talents.png" alt="ModelSuite Talents Logo" className="w-80 h-auto object-contain mx-auto block hover:scale-105 transition-transform duration-300" />
@@ -13,6 +14,7 @@ const labelCls = 'text-[11px] font-semibold uppercase tracking-[0.6px] text-text
 const LoginPage = () => {
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { login }   = useAuth();
   const navigate    = useNavigate();
 
@@ -48,10 +50,25 @@ const LoginPage = () => {
           </div>
 
           <div className="flex flex-col gap-2 group">
-            <label className={labelCls} htmlFor="password">Password</label>
-            <input id="password" type="password" placeholder="••••••••"
-              value={password} onChange={(e) => setPassword(e.target.value)} required className={inputCls} />
-          </div>
+            <label className={labelCls} htmlFor="password"> Password</label>
+
+          <div className="relative">
+            <input
+             id="password"
+             type={showPassword ? "text" : "password"}
+             placeholder="••••••••"
+             value={password}
+             onChange={(e) => setPassword(e.target.value)}
+             required
+             className={`${inputCls} pr-12`}/>
+
+            <button  type="button" onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                aria-label={showPassword ? "Hide password" : "Show password"}>
+               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+         </div>
+       </div>
 
           <button type="submit"
             className="mt-1.5 w-full py-3.5 rounded-[10px] text-[15px] font-semibold text-white cursor-pointer btn-gradient border-none hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200">
