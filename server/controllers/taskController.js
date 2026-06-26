@@ -45,6 +45,22 @@ const createTask = async (req, res) => {
   });
 }
 
+// Validate due date
+if (dueDate) {
+  const selectedDate = new Date(dueDate);
+  const today = new Date();
+
+  // Ignore time and compare only dates
+  today.setHours(0, 0, 0, 0);
+  selectedDate.setHours(0, 0, 0, 0);
+
+  if (selectedDate < today) {
+    return res.status(400).json({
+      message: "Due date cannot be in the past."
+    });
+  }
+}
+
   try {
     const task = await Task.create({
       title : title.trim(),
