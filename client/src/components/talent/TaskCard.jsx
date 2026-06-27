@@ -1,4 +1,5 @@
-﻿import { claimTask } from '../../api/talent';
+﻿
+import { claimTask } from '../../api/talent';
 
 const STATUS_CLASS = {
   Open:      'status-badge-Open',
